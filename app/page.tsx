@@ -1,113 +1,270 @@
+"use client"
+
+import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import ReactAudioPlayer from "react-audio-player";
+import ReactPlayer from 'react-player'
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    enum isLoading {
+        notLoading,
+        loading,
+        loaded,
+    }
+    type objectResponse = {
+        value: string | undefined,
+        type: string | undefined,
+        id: string,
+        isFileLoaded: isLoading | undefined,
+        mediaUrl: string | undefined,
+        isPlaying : boolean
+    }
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    type objectPromptResponse = {
+        value: string | undefined,
+        type: string | undefined,
+        isFileLoaded: isLoading | undefined,
+        mediaUrl: string | undefined,
+    }
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+    const [prompt, setPrompt] = useState<string>('')
+    //const [videoData, setVideoData] = useState('')
+    const [promptResponse, setPromptResponse] = useState<objectPromptResponse>()
+    const [responses, setResponses] = useState<Array<objectResponse>>([])
+    const [isVideoLoaded, setIsVideoLoaded] = useState<isLoading>(isLoading.notLoading)
+    const [audioUrl, setAudioUrl] = useState<string>()
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+    useEffect(() => {
+        if (promptResponse && !responses.find(r => r.value === prompt)) {
+            setResponses([...responses, { value: prompt, type: 'userPrompt', id: uuidv4(), isFileLoaded: isLoading.notLoading, mediaUrl: undefined, isPlaying: false }, { ...promptResponse, id: uuidv4(), isPlaying: false }])
+        }
+        //console.log(responses)
+    }, [promptResponse])
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+    const handleChange = (e: any) => {
+        setPrompt(e.target.value)
+        //console.log(prompt)
+        //console.log(JSON.stringify({prompt}))
+    }
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    const handleClickComedy = async () => {
+        // TODO: send prompt to the server and get response from the ser    ver
+        //console.log(prompt)
+        let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-comedy`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }),
+        })
+
+        let data = await response.json();
+        //console.log(data)
+        setPromptResponse({ value: data, type: 'promptResponseComedyShow', isFileLoaded: isLoading.notLoading, mediaUrl: undefined });
+    }
+
+    const handleClickMusic = async () => {
+        let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-music`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }),
+        })
+
+        let data = await response.json();
+        //console.log(data)
+        setPromptResponse({ value: data, type: 'promptResponseMusic', isFileLoaded: isLoading.notLoading, mediaUrl: undefined });
+    }
+
+    const handleGenerateVideo = async (targetElementId: string) => {
+        //console.log(target.target)
+        let targetId = targetElementId;
+        //console.log(targetId)
+        let targetElement = responses.find(r => r.id === targetId);
+        let promptVideoGeneration = '';
+        if (targetElement) {
+            promptVideoGeneration = targetElement.value || ''
+            setResponses(responses => responses.map(r =>
+                r.id === targetElementId ? { ...r, isFileLoaded: isLoading.loading } : r
+            ))
+        }
+
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-video`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ promptVideoGeneration }),
+        })
+
+        let data = await response.json();
+        let output = data.file;
+        //console.log(output)
+        //console.log(data.id)
+        //setVideoData(data);
+        //let timeWait = data.eta * 1000;
+
+        // setTimeout(async () => {
+        //     setIsVideoLoaded(isLoading.loading)
+
+        //     let responseVideoFetch = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/fetch-video`, {
+        //         method: 'POST',
+        //         headers: myHeaders,
+        //         body: JSON.stringify({ id }),
+        //         redirect: 'follow'
+        //     })
+
+        //     let dataFetchQueue = await responseVideoFetch.json();
+        //     while (dataFetchQueue.status === 'processing') {
+        //         let responseFetchVideoRepeat = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/fetch-video`, {
+        //             method: 'POST',
+        //             headers: myHeaders,
+        //             body: JSON.stringify({
+        //                 id
+        //             }),
+        //             redirect: 'follow'
+        //         })
+
+        //         dataFetchQueue = await responseFetchVideoRepeat.json();
+        //         console.log(dataFetchQueue.status)
+        //     }
+        // }, timeWait);
+        //     let dataFetchQueue = await responseFetchQueueRepeat.json();
+        // }
+
+        if (data.file && targetElement) {
+            setResponses(responses => responses.map(r =>
+                r.id === targetElementId ? { ...r, mediaUrl: data.file } : r
+            ))
+            console.log(targetElement.mediaUrl);
+        }
+
+        if (targetElement) {
+            //promptMusicGeneration = targetElement.value
+            setResponses(responses => responses.map(r =>
+                r.id === targetElementId ? { ...r, isFileLoaded: isLoading.loaded } : r
+            ))
+        }
+
+        console.log(isVideoLoaded)
+    }
+
+    const handleGenerateMusicFile = async (id: string): Promise<void> => {
+        let targetElement = responses.find(r => r.id === id);
+        let promptMusicGeneration: string | undefined = '';
+        if (targetElement) {
+            promptMusicGeneration = targetElement.value
+            setResponses(responses => responses.map(r =>
+                r.id === id ? { ...r, isFileLoaded: isLoading.loading } : r
+            ))
+        }
+
+        //console.log(promptMusicGeneration)
+
+        let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-music-file`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ promptMusicGeneration }),
+        })
+
+        let data = await response.json();
+        //console.log(data.file, data.error);
+        //setAudioUrl(data.file);
+
+        if (data.file && targetElement) {
+            setResponses(responses => responses.map(r =>
+                r.id === id ? { ...r, mediaUrl: data.file } : r
+            ))
+            console.log(targetElement.mediaUrl);
+        }
+
+        if (targetElement) {
+            //promptMusicGeneration = targetElement.value
+            setResponses(responses => responses.map(r =>
+                r.id === id ? { ...r, isFileLoaded: isLoading.loaded } : r
+            ))
+        }
+    }
+
+    const playSong = (targetId: string) => {
+        if (responses.find(r => r.id === targetId)?.mediaUrl) {
+            const audio = new Audio(responses.find(r => r.id === targetId)?.mediaUrl);
+            if (!audio.play()) {
+                audio.play();
+            }
+        }
+    }
+
+    const playVideo = (targetId: string) => {
+        if (responses.find(r => r.id === targetId)?.mediaUrl) {
+            const video = document.getElementById(targetId);
+            if (video) {
+                setResponses(responses => responses.map(r =>
+                    r.id === targetId ? { ...r, isPlaying: true } : r
+                ))
+            }
+        }
+    }
+
+    return (
+        <>
+            <Head>
+                <link rel="icon" href="/icon.ico" sizes="any" />
+            </Head>
+            <div className='relative w-screen h-[90vh]'>
+
+                {responses.length === 0 && <div className='w-full h-[80vh] flex justify-center items-center'>
+                    <div className='main flex flex-col'>
+                        <h1 className='text-4xl text-center'>Welcome to Comedy@AI</h1>
+                        <p className='text-xl text-center'>AI meets comedy</p>
+                    </div>
+                </div>}
+
+                {responses.length !== 0 && <div className='main h-[80vh] overflow-auto w-full '>
+                    {responses.map((item) => {
+                        return <div key={item.id} className={`${item.type === 'userPrompt' ? "m-lg bg-slate-700 text-white p-md" : "m-lg bg-slate-400 p-md"}`}>
+                            <p>{item.value}</p>
+                            {item.isFileLoaded === isLoading.loading && (item.type === 'promptResponseComedyShow' || item.type === 'promptResponseMusic') && <div><Image src="/loading.gif" alt="loading for slow net" width={68} height={150} className='bg-transparent invert' /></div>}
+                            {item.type === 'promptResponseComedyShow' && <div>
+                                {item.mediaUrl && <ReactPlayer width={400} height={250} 
+                                controls
+                                playing={item.isPlaying}
+                                onPlay={() => playVideo(item.id)} id={item.id} url={item.mediaUrl}>
+                                </ReactPlayer>}
+                                <button className='bg-black text-white rounded-lg p-sm m-sm' id={item.id} onClick={() => handleGenerateVideo(item.id)}> Generate Video</button>
+                                <button onClick={() => playVideo(item.id)} disabled={!item.mediaUrl} className="bg-black text-white rounded-lg p-sm m-sm disabled:bg-slate-500">Play Video</button>
+                            </div>}
+                            {item.type === 'promptResponseMusic' && <div>
+                                {item.mediaUrl && <ReactAudioPlayer
+                                    src={item.mediaUrl}
+                                    controls
+                                    className="m-md"
+                                    onPlay={() => playSong(item.id)}
+                                />}
+                                <button className='bg-black text-white rounded-lg p-sm m-sm' id={item.id} onClick={() => handleGenerateMusicFile(item.id)}> Generate Music</button>
+                                <button onClick={() => playSong(item.id)} disabled={!item.mediaUrl} className="bg-black text-white rounded-lg p-sm m-sm disabled:bg-slate-500">Play Song</button>
+                            </div>}
+                        </div>
+                    })}
+                </div>}
+
+
+                <div className='footer w-screen flex justify-center gap-4 absolute bottom-0'>
+                    <input type="text" className='w-[72vw] h-[50px] border-2 border-black p-sm' value={prompt ? prompt : ''} onChange={handleChange} />
+                    <button className='border-[1px] border-black p-sm rounded-lg' onClick={handleClickComedy}>Generate Comedy Show</button>
+                    <button className='border-[1px] border-black p-sm rounded-lg' onClick={handleClickMusic}>Generate Music</button>
+                </div>
+            </div>
+        </>
+    )
 }
+
+
