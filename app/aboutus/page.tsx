@@ -9,7 +9,7 @@ const page = () => {
         <h2>Welcome to Comedy@AI</h2>
         <p>
           At LaughBot Studios, we believe in the power of laughter to bring people together. 
-          In a world that's constantly evolving, so is comedy. That’s why we’ve harnessed the cutting-edge 
+          In a world that's constantly evolving, so is comedy. Thats why weve harnessed the cutting-edge 
           capabilities of artificial intelligence to create a platform where humor knows no bounds.
         </p>
       </section>
@@ -29,7 +29,7 @@ const page = () => {
         <p>
           Comedy is a universal language, but we all have different tastes. Our AI is designed to learn and adapt, 
           understanding the nuances of what makes you laugh. By blending the latest advancements in machine learning 
-          with the timeless art of comedy, we’re pioneering a new frontier in entertainment. Whether you're looking 
+          with the timeless art of comedy, were pioneering a new frontier in entertainment. Whether you're looking 
           for a quick laugh or a whole night of entertainment, our AI comedians are here to deliver.
         </p>
       </section>
@@ -37,9 +37,9 @@ const page = () => {
       <section>
         <h2>Our Mission</h2>
         <p>
-          Our mission is simple: to make the world a funnier place. We’re dedicated to pushing the boundaries of AI 
+          Our mission is simple: to make the world a funnier place. Were dedicated to pushing the boundaries of AI 
           while ensuring that our content remains inclusive, diverse, and—most importantly—hilarious. We believe that 
-          everyone deserves a good laugh, and with LaughBot Studios, that’s exactly what you’ll get.
+          everyone deserves a good laugh, and with LaughBot Studios, thats exactly what youll get.
         </p>
       </section>
       
@@ -47,9 +47,9 @@ const page = () => {
         <h2>Meet the Team</h2>
         <p>
           Our team is a quirky mix of AI experts, comedians, and tech enthusiasts who are passionate about creating 
-          a new era of comedy. We’ve combined our love for technology and humor to bring you a platform that’s not 
+          a new era of comedy. Weve combined our love for technology and humor to bring you a platform that’s not 
           just innovative, but genuinely entertaining. With backgrounds in software development, creative writing, 
-          and performance, we’re united by our commitment to making you laugh.
+          and performance, were united by our commitment to making you laugh.
         </p>
       </section>
     </div>

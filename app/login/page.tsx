@@ -4,7 +4,7 @@ import React from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from 'next/navigation'
 
-const page = () => {
+const Page = () => {
   const { data: session } = useSession()
 
   if (session) {
@@ -44,4 +44,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
