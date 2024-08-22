@@ -9,7 +9,7 @@ const page = () => {
         <h2>Welcome to Comedy@AI</h2>
         <p>
           At LaughBot Studios, we believe in the power of laughter to bring people together. 
-          In a world that's constantly evolving, so is comedy. Thats why weve harnessed the cutting-edge 
+          In a world thats constantly evolving, so is comedy. Thats why weve harnessed the cutting-edge 
           capabilities of artificial intelligence to create a platform where humor knows no bounds.
         </p>
       </section>
@@ -29,7 +29,7 @@ const page = () => {
         <p>
           Comedy is a universal language, but we all have different tastes. Our AI is designed to learn and adapt, 
           understanding the nuances of what makes you laugh. By blending the latest advancements in machine learning 
-          with the timeless art of comedy, were pioneering a new frontier in entertainment. Whether you're looking 
+          with the timeless art of comedy, were pioneering a new frontier in entertainment. Whether youre looking 
           for a quick laugh or a whole night of entertainment, our AI comedians are here to deliver.
         </p>
       </section>

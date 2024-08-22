@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation'
 
 const Page = () => {
   const { data: session } = useSession()
+  const router = useRouter()
 
   if (session) {
-    const router = useRouter()
     router.push('/')
   }
 
