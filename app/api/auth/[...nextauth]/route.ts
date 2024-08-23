@@ -27,26 +27,32 @@ const handler = NextAuth({
     secret: process.env.SECRET,
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
-            if (account && account.provider === "github") {
-                //connect to the database
-                connectDB();
-
-                //check if user already exist in database
-                const currentUser = await User.findOne({ email: user.email })
-                console.log(currentUser)
-
-                if (!currentUser) {
-                    //console.log(email)
-                    const newUser = new User({
-                        email: user.email,
-                        username: user.email?.split("@")[0],
-                    })
-                    //console.log(newUser)
-                    await newUser.save()
+            try {
+                
+                if (account && account.provider === "github") {
+                    //connect to the database
+                    connectDB();
     
+                    //check if user already exist in database
+                    const currentUser = await User.findOne({ email: user.email })
+                    console.log(currentUser)
+    
+                    if (!currentUser) {
+                        //console.log(email)
+                        const newUser = new User({
+                            email: user.email,
+                            username: user.email?.split("@")[0],
+                        })
+                        //console.log(newUser)
+                        await newUser.save()
+        
+                    }
+    
+                    return true;
                 }
-
-                return true;
+            } catch (error) {
+                console.log(error)
+                return false;
             }
             return false;
         },
