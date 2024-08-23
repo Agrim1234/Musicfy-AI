@@ -31,22 +31,22 @@ const handler = NextAuth({
                 
                 if (account && account.provider === "github") {
                     //connect to the database
-                    connectDB();
+                    // connectDB();
     
-                    //check if user already exist in database
-                    const currentUser = await User.findOne({ email: user.email })
-                    console.log(currentUser)
+                    // //check if user already exist in database
+                    // const currentUser = await User.findOne({ email: user.email })
+                    // console.log(currentUser)
     
-                    if (!currentUser) {
-                        //console.log(email)
-                        const newUser = new User({
-                            email: user.email,
-                            username: user.email?.split("@")[0],
-                        })
-                        //console.log(newUser)
-                        await newUser.save()
+                    // if (!currentUser) {
+                    //     //console.log(email)
+                    //     const newUser = new User({
+                    //         email: user.email,
+                    //         username: user.email?.split("@")[0],
+                    //     })
+                    //     //console.log(newUser)
+                    //     await newUser.save()
         
-                    }
+                    // }
     
                     return true;
                 }
@@ -57,11 +57,11 @@ const handler = NextAuth({
             return false;
         },
         async session({ session, user, token }) {
-            const dbUser = await User.findOne({email: session.user?.email})
-            console.log(dbUser, dbUser.username, "checking")
-            if(session.user){
-                session.user.name = dbUser.username ? dbUser.username : '';
-            }
+            // const dbUser = await User.findOne({email: session.user?.email})
+            // console.log(dbUser, dbUser.username, "checking")
+            // if(session.user){
+            //     session.user.name = dbUser.username ? dbUser.username : '';
+            // }
 
             return session
         },
