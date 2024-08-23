@@ -24,6 +24,7 @@ const handler = NextAuth({
         //     }
         // })
     ],
+    secret: process.env.SECRET,
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
             if (account && account.provider === "github") {

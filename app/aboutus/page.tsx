@@ -1,6 +1,6 @@
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <div className='bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] p-xl mt-2xl flex flex-col gap-8 '>
       <h1>About Us</h1>
@@ -47,7 +47,7 @@ const page = () => {
         <h2>Meet the Team</h2>
         <p>
           Our team is a quirky mix of AI experts, comedians, and tech enthusiasts who are passionate about creating 
-          a new era of comedy. Weve combined our love for technology and humor to bring you a platform that’s not 
+          a new era of comedy. Weve combined our love for technology and humor to bring you a platform thats not 
           just innovative, but genuinely entertaining. With backgrounds in software development, creative writing, 
           and performance, were united by our commitment to making you laugh.
         </p>
@@ -56,4 +56,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

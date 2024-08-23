@@ -6,7 +6,7 @@ export const POST = async (req: Request) => {
     const anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY });
     const { prompt } = await req.json();
 
-    console.log(prompt)
+    console.log(prompt, process.env.CLAUDE_API_KEY)
 
     const response = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20240620",
