@@ -6,21 +6,31 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ReactAudioPlayer from "react-audio-player";
 import ReactPlayer from 'react-player'
+import { useSession } from "next-auth/react";
+import { fetchuser, updateProfile } from "@/actions/useractions";
+
+export type objectResponse = {
+    value: string | undefined,
+    type: string | undefined,
+    id: string,
+    isFileLoaded: isLoading | undefined,
+    mediaUrl: string | undefined,
+    isPlaying: boolean
+}
+
+enum isLoading {
+    notLoading,
+    loading,
+    loaded,
+}
+
+export type ObjectUser = {
+    Data: Array<objectResponse> | undefined,
+    email: string,
+    username: string,
+}
 
 export default function Home() {
-    enum isLoading {
-        notLoading,
-        loading,
-        loaded,
-    }
-    type objectResponse = {
-        value: string | undefined,
-        type: string | undefined,
-        id: string,
-        isFileLoaded: isLoading | undefined,
-        mediaUrl: string | undefined,
-        isPlaying : boolean
-    }
 
     type objectPromptResponse = {
         value: string | undefined,
@@ -29,18 +39,52 @@ export default function Home() {
         mediaUrl: string | undefined,
     }
 
+
+    const { data: session } = useSession()
+
     const [prompt, setPrompt] = useState<string>('')
     //const [videoData, setVideoData] = useState('')
+
+    const [currentUser, setCurrentUser] = useState<ObjectUser>({ Data: [], email: '', username: '' })//+
+
     const [promptResponse, setPromptResponse] = useState<objectPromptResponse>()
     const [responses, setResponses] = useState<Array<objectResponse>>([])
     const [isVideoLoaded, setIsVideoLoaded] = useState<isLoading>(isLoading.notLoading)
     const [audioUrl, setAudioUrl] = useState<string>()
 
+    const getData = async () => {
+        let u = await fetchuser(session?.user?.email)
+        setCurrentUser(u)
+    }
+
+    const updateUserData = async (userData: any) => {
+        await updateProfile(userData)
+        console.log('update data', userData)
+    }
+
+    useEffect(() => {
+        if (currentUser && currentUser.Data) {
+            console.log(currentUser.Data, 'current User log')
+            setResponses(currentUser.Data);
+        }
+    }, [currentUser])
+
+    useEffect(() => {
+        getData();
+    }, [session])
+
+    useEffect(() => {
+        if (session && session.user?.email) {
+            setCurrentUser({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
+            updateUserData(currentUser)
+        }
+    }, [responses])
+
     useEffect(() => {
         if (promptResponse && !responses.find(r => r.value === prompt)) {
             setResponses([...responses, { value: prompt, type: 'userPrompt', id: uuidv4(), isFileLoaded: isLoading.notLoading, mediaUrl: undefined, isPlaying: false }, { ...promptResponse, id: uuidv4(), isPlaying: false }])
         }
-        //console.log(responses)
+        console.log(responses)
     }, [promptResponse])
 
     const handleChange = (e: any) => {
@@ -230,14 +274,14 @@ export default function Home() {
 
                 {responses.length !== 0 && <div className='main h-[80vh] overflow-auto w-full '>
                     {responses.map((item) => {
-                        return <div key={item.id} className={`${item.type === 'userPrompt' ? "m-lg bg-slate-700 text-white p-md" : "m-lg bg-slate-400 p-md"}`}>
+                        return <div key={item.id} className={`${item.type === 'userPrompt' ? "m-lg bg-slate-700 text-white p-md shadow-2xl rounded-lg" : "m-lg bg-slate-400 p-md shadow-2xl rounded-lg flex flex-col gap-3"}`}>
                             <p>{item.value}</p>
                             {item.isFileLoaded === isLoading.loading && (item.type === 'promptResponseComedyShow' || item.type === 'promptResponseMusic') && <div><Image src="/loading.gif" alt="loading for slow net" width={68} height={150} className='bg-transparent invert' /></div>}
                             {item.type === 'promptResponseComedyShow' && <div>
-                                {item.mediaUrl && <ReactPlayer width={400} height={250} 
-                                controls
-                                playing={item.isPlaying}
-                                onPlay={() => playVideo(item.id)} id={item.id} url={item.mediaUrl}>
+                                {item.mediaUrl && <ReactPlayer width={400} height={250}
+                                    controls
+                                    playing={item.isPlaying}
+                                    onPlay={() => playVideo(item.id)} id={item.id} url={item.mediaUrl}>
                                 </ReactPlayer>}
                                 <button className='bg-black text-white rounded-lg p-sm m-sm' id={item.id} onClick={() => handleGenerateVideo(item.id)}> Generate Video</button>
                                 <button onClick={() => playVideo(item.id)} disabled={!item.mediaUrl} className="bg-black text-white rounded-lg p-sm m-sm disabled:bg-slate-500">Play Video</button>
@@ -257,10 +301,10 @@ export default function Home() {
                 </div>}
 
 
-                <div className='footer w-screen flex justify-center gap-4 absolute bottom-0'>
-                    <input type="text" className='w-[72vw] h-[50px] border-2 border-black p-sm' value={prompt ? prompt : ''} onChange={handleChange} />
-                    <button className='border-[1px] border-black p-sm rounded-lg' onClick={handleClickComedy}>Generate Comedy Show</button>
-                    <button className='border-[1px] border-black p-sm rounded-lg' onClick={handleClickMusic}>Generate Music</button>
+                <div className='footer w-screen flex justify-center gap-4 absolute bottom-0 bg-slate-200 items-center py-sm '>
+                    <input type="text" className='w-[72vw] h-[45px] border-2 border-black p-sm rounded-lg' value={prompt ? prompt : ''} onChange={handleChange} />
+                    <button className='border-[1px] border-black p-sm rounded-lg bg-white' onClick={handleClickComedy}>Generate Comedy Show</button>
+                    <button className='border-[1px] border-black p-sm rounded-lg bg-white' onClick={handleClickMusic}>Generate Music</button>
                 </div>
             </div>
         </>

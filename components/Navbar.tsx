@@ -9,7 +9,7 @@ const Navbar = () => {
     const { data: session } = useSession()
     const [showCollapsibleSidebar, setShowCollapsibleSidebar] = useState<boolean>(false)
     const [showDropDown, setShowDropDown] = useState<boolean>(false)
-    const [hamburgerImg, setHamburgerImg] = useState<string>('/hamburger.svg')
+    const [hamburgerImg, setHamburgerImg] = useState<string>('/hamburger-menu.svg')
     const hamburgerClick = () => {
         let collapsibleNavbar = document.getElementById('mobile-menu')
         if (collapsibleNavbar) {
@@ -25,7 +25,7 @@ const Navbar = () => {
             }
         }
 
-        if (hamburgerImg === '/hamburger.svg') {
+        if (hamburgerImg === '/hamburger-menu.svg') {
             setHamburgerImg('/close.svg')
         }
         else {
