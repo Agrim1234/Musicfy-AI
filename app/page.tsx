@@ -74,8 +74,8 @@ export default function Home() {
     }, [session])
 
     useEffect(() => {
-        if (session && session.user?.email) {
-            setCurrentUser({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
+        if (session && session.user?.email && responses !== currentUser.Data) {
+            //setCurrentUser({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
             updateUserData(currentUser)
         }
     }, [responses])
@@ -266,7 +266,8 @@ export default function Home() {
             <div className='relative w-screen h-[90vh]'>
 
                 {responses.length === 0 && <div className='w-full h-[80vh] flex justify-center items-center'>
-                    <div className='main flex flex-col'>
+                    <div className='main flex flex-col items-center'>
+                        <Image src={'/mainScreenLogo.png'} alt={"main image"} width={150} height={200}/>
                         <h1 className='text-4xl text-center'>Welcome to Comedy@AI</h1>
                         <p className='text-xl text-center'>AI meets comedy</p>
                     </div>
