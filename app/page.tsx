@@ -76,7 +76,7 @@ export default function Home() {
     useEffect(() => {
         if (session && session.user?.email && responses !== currentUser.Data) {
             //setCurrentUser({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
-            updateUserData(currentUser)
+            updateUserData({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
         }
     }, [responses])
 
