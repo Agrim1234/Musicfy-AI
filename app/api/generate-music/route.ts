@@ -41,7 +41,7 @@ export const POST = async (req: Request) => {
         max_tokens: 200,
         n: 1,
         messages: [
-            { role: "system", content: "Respond only with short musical songs" },
+            { role: "system", content: "Respond only with short musical songs without 🎵" },
             {role: "user", content: prompt}
         ]
     });
@@ -51,8 +51,6 @@ export const POST = async (req: Request) => {
     if (response.choices && response.choices.length > 0) {
         responseText = response.choices[0].message.content || '';
     }
-
-
 
     return NextResponse.json(responseText);
 }

@@ -55,6 +55,12 @@ const Navbar = () => {
                     {/* <Link href="/" className="block rounded-md px-5 py-2 text-white z-100 font-medium hover:bg-gray-700 hover:text-white">
                         <span>Services</span>
                     </Link> */}
+                    <Link href="/" className="block rounded-md px-5 py-2 text-white font-medium z-100 hover:bg-gray-700 hover:text-white">
+                        Generate Comedy Show
+                    </Link>
+                    <Link href="/generatemusic" className="block rounded-md px-5 py-2 text-white font-medium z-100 hover:bg-gray-700 hover:text-white">
+                        Generate Music
+                    </Link>
                     <Link href="/aboutus" className="block rounded-md px-5 py-2 text-white font-medium z-100 hover:bg-gray-700 hover:text-white">
                         About us
                     </Link>
@@ -82,6 +88,16 @@ const Navbar = () => {
                         </svg> 
                     </Link>
                 </li> */}
+                <li>
+                    <Link href={'/'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
+                        Generate Comedy Show
+                    </Link>
+                </li>
+                <li>
+                    <Link href={'/generatemusic'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
+                        Generate Music
+                    </Link>
+                </li>
                 <li className='hover:font-bold transition-all duration-100 mx-3 z-100'>
                     <Link href={'/aboutus'} className='z-100'>
                         About us

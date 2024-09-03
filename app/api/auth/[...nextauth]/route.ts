@@ -26,7 +26,7 @@ const handler = NextAuth({
     ],
     secret: process.env.SECRET,
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
+        async signIn({ user, account, profile, email, credentials }: { user: any, account: any, profile: any, email: any, credentials: any}) {
             try {
                 
                 if (account && account.provider === "github") {
@@ -56,7 +56,7 @@ const handler = NextAuth({
             }
             return false;
         },
-        async session({ session, user, token }) {
+        async session({ session, user, token }: { session:any, user:any, token:any}) {
             const dbUser = await User.findOne({email: session.user?.email})
             console.log(dbUser, dbUser.username, "checking")
             if(session.user){
