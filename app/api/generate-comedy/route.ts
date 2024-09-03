@@ -128,17 +128,9 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         await driver.get('https://app.runwayml.com/video-tools/teams/persistdomains/ai-tools/generative-video'); // Replace with the actual URL
 
         // Interact with the UI elements to configure the video generation
-        await driver.wait(until.elementLocated(By.xpath('//*[@id="radix-1"]')), 20000);
+        await driver.sleep(3000);
+        await driver.wait(until.elementLocated(By.css('button.BaseModelSelector__TriggerStyled-sc-1ed3w6f-0.OSTyQ')), 20000);
 
-        //*[@id="radix-4"]
-        // await driver.findElement(By.xpath('//*[@id="radix-1"]')).click();
-        // console.log('model chosen successfully')
-
-        // await driver.wait(until.elementLocated(By.xpath('/html/body/div[7]')), 2000)
-        // console.log('dropdown appears')
-
-        // await driver.findElement(By.xpath('//*[@id="radix-4"]/div[2]')).click();
-        // console.log('model button assigned')    
 
         const returnElement = await driver.findElement(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[2]/div/div'));
         const valueReturn = await returnElement.click();
@@ -225,18 +217,18 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
 
         await driver.executeScript("arguments[0].scrollIntoView(true);", cropElement); // Scroll into view if needed
 
-        const rect = await cropElement.getRect(); // Check if the element is within the viewport
-        console.log('Element Rect:', rect);
+        // const rect = await cropElement.getRect(); // Check if the element is within the viewport
+        // console.log('Element Rect:', rect);
 
         await driver.sleep(1000);
 
-        const isOverlapping = await driver.executeScript(`
-            const elem = arguments[0];
-            const rect = elem.getBoundingClientRect();
-            return document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) !== elem;
-        `, cropElement);
+        // const isOverlapping = await driver.executeScript(`
+        //     const elem = arguments[0];
+        //     const rect = elem.getBoundingClientRect();
+        //     return document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) !== elem;
+        // `, cropElement);
 
-        console.log('Is Overlapping:', isOverlapping);
+        // console.log('Is Overlapping:', isOverlapping);
 
 
         //*[@id="radix-4"]
