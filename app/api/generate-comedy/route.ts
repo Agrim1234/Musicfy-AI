@@ -1,6 +1,4 @@
-import React from 'react'
 import { NextResponse } from 'next/server';
-import Anthropic from "@anthropic-ai/sdk";
 import OpenAi from "openai"
 import { Builder, By, Key, until } from 'selenium-webdriver'
 import axios from 'axios';
@@ -9,7 +7,6 @@ import gtts from 'gtts';
 import path from 'path';
 import { exec } from 'child_process';
 import chrome, { ServiceBuilder } from 'selenium-webdriver/chrome';
-import chromedriver from 'chromedriver'
 
 type automateVideoGenerationProps = {
     imgUrl: string,
@@ -75,7 +72,6 @@ async function downloadImage({ imgUrl, filename }: downloadImageProps) {
 
 async function mergeAudioAndVideo({ audioFile, videoFile, outputFile }: mergeAudioAndVideoProps) {
 
-    // Create a video using the generated text
     const videoCommand = "ffmpeg -i " + videoFile + " -i " + audioFile + " -c:v copy -c:a aac -strict experimental " + outputFile + "";
     await new Promise((resolve, reject) => {
         exec(videoCommand, (error, stdout, stderr) => {
@@ -121,13 +117,10 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         }
         console.log('logged in');
 
-        // Wait until the user is logged in and redirected to the dashboard
         await driver.wait(until.urlContains('/dashboard'), 20000);
 
-        // Navigate to the video generation tool or project
         await driver.get('https://app.runwayml.com/video-tools/teams/persistdomains/ai-tools/generative-video'); // Replace with the actual URL
 
-        // Interact with the UI elements to configure the video generation
         await driver.sleep(3000);
         await driver.wait(until.elementLocated(By.css('button.BaseModelSelector__TriggerStyled-sc-1ed3w6f-0.OSTyQ')), 20000);
 
@@ -137,22 +130,10 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         console.log(valueReturn)
         console.log('return button clicked');
 
-        //upload the image
         const fileInput = await driver.findElement(By.xpath('//*[@id="data-panel-id-left-panel-panel-top"]/div/div[2]/div'));
-        const filePath = path.resolve(process.cwd(), imgUrl); // Replace with your image file path
+        const filePath = path.resolve(process.cwd(), imgUrl); 
         console.log(filePath)
         console.log(fileInput)
-        // await fileInput.sendKeys(filePath);
-
-        // Verify that the file exists
-        //  if (!fs.existsSync(filePath)) {
-        //     throw new Error('Image file not found: ' + filePath);
-        // }
-
-        // Use JavaScript to simulate the drag-and-drop action
-
-
-        // Read the image file and convert it to a Base64 string 
 
         const imageData = fs.readFileSync(filePath, 'base64');
 
@@ -182,34 +163,15 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
             target.dispatchEvent(dropEvent);
         `;
 
-        // Execute the script to drop the image
         await driver.executeScript(jsScript, fileInput, imageData, path.basename(filePath));
         console.log('image uploaded')
 
-
-
-        // Wait for the image to load
         await driver.wait(until.elementLocated(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[1]/div/main/div')), 25000);
         console.log('image loading complete')
 
-
-        //Click on crop button and wait
         await driver.wait(until.elementIsEnabled(driver.findElement(By.css('div.Wrapper-module__fade__D0g3g.advanced-cropper-fade.advanced-cropper-fade--visible'))))
         await driver.wait(until.elementIsEnabled(driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU.ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0.bHEvyM'))));
         const cropElement = await driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU.ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0.bHEvyM'));
-        //*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[1]/div/main/footer/button[2]
-        //*[@id="data-panel-id-17"]/div[1]/main/footer/button[2]
-        //*[@id="data-panel-id-25"]/div[1]/main/footer/button[2]
-        // <button class="Button-sc-c1bth8-0 Button__StyledButton-sc-c1bth8-1 kjAqmU ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0 bHEvyM" data-loading="false"><span class="Button__ButtonChildrenOrLoaderContainer-sc-c1bth8-2 jjxCJk"><span class="Button__ChildrenContainer-sc-c1bth8-3 hNuuCC">Crop</span></span></button>
-        // <button class="Button-sc-c1bth8-0 Button__StyledButton-sc-c1bth8-1 kjAqmU ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0 bHEvyM" data-loading="false"><span class="Button__ButtonChildrenOrLoaderContainer-sc-c1bth8-2 jjxCJk"><span class="Button__ChildrenContainer-sc-c1bth8-3 hNuuCC">Crop</span></span></button>
-        //*[@id="data-panel-id-29"]/div[1]/main/footer/button[2]
-        // /html/body/div[1]/div/div[3]/div[1]/div/div/div/div[3]/div/div/div[1]/div[1]/main/footer/button[2]
-        // /html/body/div[1]/div/div[3]/div[1]/div/div/div/div[3]/div/div[1]/div/main/footer/button[2]
-        //*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[1]/div/main/footer/button[2]
-        //*[@id="data-panel-id-77"]/div[1]/main/footer/button[2]
-        //*[@id="data-panel-id-81"]/div[1]/main/footer/button[2]
-        //#data-panel-id-19 > div.LeftPanel-module__layout__9WgYI > main > footer > button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU.ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0.bHEvyM
-        // <button class="Button-sc-c1bth8-0 Button__StyledButton-sc-c1bth8-1 kjAqmU ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0 bHEvyM" data-loading="false"><span class="Button__ButtonChildrenOrLoaderContainer-sc-c1bth8-2 jjxCJk"><span class="Button__ChildrenContainer-sc-c1bth8-3 hNuuCC">Crop</span></span></button>
 
         console.log(cropElement)
         await driver.wait(until.elementIsVisible(cropElement), 10000);
@@ -217,30 +179,7 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
 
         await driver.executeScript("arguments[0].scrollIntoView(true);", cropElement); // Scroll into view if needed
 
-        // const rect = await cropElement.getRect(); // Check if the element is within the viewport
-        // console.log('Element Rect:', rect);
-
         await driver.sleep(1000);
-
-        // const isOverlapping = await driver.executeScript(`
-        //     const elem = arguments[0];
-        //     const rect = elem.getBoundingClientRect();
-        //     return document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) !== elem;
-        // `, cropElement);
-
-        // console.log('Is Overlapping:', isOverlapping);
-
-
-        //*[@id="radix-4"]
-        // const modelElementButton = await driver.findElement(By.xpath('//*[@id="radix-4"]'));
-        // await driver.wait(until.elementIsVisible(modelElementButton));
-        // await driver.wait(until.elementIsEnabled(modelElementButton));
-        // await modelElementButton.click();
-        // await modelElementButton.click();
-
-        //console.log(cropElement)
-
-        
 
         const value = await driver.executeScript("arguments[0].click();", cropElement);
         console.log(cropElement)
@@ -248,47 +187,26 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
 
         console.log('crop element clicked')
 
-
-
-        // Wait for cropping to complete and return to original window
         await driver.wait(until.elementIsVisible(driver.findElement(By.xpath('//*[@id="data-panel-id-left-panel-panel-bottom" and not(@disabled)]/div/div/div/div/div[1]'))), 30000);
         await driver.wait(until.elementLocated(By.xpath('//*[@id="data-panel-id-left-panel-panel-bottom" and not(@disabled)]/div/div/div/div/div[1]')), 20000);
         console.log('cropping complete');
 
-
-
-        // Optionally, fill out any forms or select options        
         await driver.findElement(By.xpath('//*[@id="data-panel-id-left-panel-panel-bottom" and not(@disabled)]/div/div/div/div/div[1]')).sendKeys(`Visual: ${prompt} Camera motion: camera fixed at one position`);
         console.log('text prompt entered');
 
-
-
-        //select the 5s option -
         const durationElement = await driver.findElement(By.css('button.EuropaDurationButton__Button-sc-1ehwadc-0.ckSFxu'));
         await durationElement.click();
         await driver.sleep(2000)
         const fivesecElement = await driver.findElement(By.xpath('//div[text() = "5 seconds"]'));  
         await driver.sleep(2000)
         await fivesecElement.click();
-        //*[@id="radix-7"]/div[1]
         
-
-
-        // Start the video generation process
         const videogenElement = await driver.findElement(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[1]/div/div/div/div/div[2]/div[2]/div/div/button'));
         await videogenElement.click();
         console.log('video geeratoin started')
 
-
-        // Wait for the video generation to complete (you may need to increase this timeout)
-        //await driver.wait(until.elementIsVisible(driver.findElement(By.xpath('//*[@id="gen2-next-layout-feed-container"]/div[1]/div/div[2]/div[2]/div[1]/button'))));
         await driver.sleep(60000)
-        // const videoElement = await driver.findElement(By.xpath('//*[@id="gen2-next-layout-feed-container"]/div[1]/div/div[2]/div[2]/div[1]/button'));
-        // await videoElement.click();
-
-
-        //select download option
-        //const videoDownloadElement = await driver.wait(until.elementLocated(By.xpath('//*[@id="data-panel-id-editor"]/div/div/div')), 50000);
+       
         await driver.sleep(2000)
 
         const sideBar = await driver.findElement(By.css('div.Base__Box-sc-1rhgz1n-0.HeaderDropdown___StyledBox-sc-16in36a-0.lfBlZw'))
@@ -339,26 +257,20 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
 
         await driver.sleep(30000);
 
-        //await videoDownloadElement.click();
-        //await driver.findElement(By.xpath('//*[@id="gen2-next-layout-feed-container"]/div[1]/div/div[1]/div[2]/div/div[3]/button[1]')).click();
         console.log('Video generation complete.');
 
 
     } catch (error) {
         console.error('An error occurred:', error);
     } finally {
-
-        // Quit the WebDriver session
         await driver.quit();
         console.log('WebDriver session closed');
-
     }
 }
 
 
 
 export const POST = async (req: Request) => {
-    //const anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY });
     const openai = new OpenAi({ apiKey: process.env.OPENAI_API_KEY });
 
     const { prompt, elementId } = await req.json();
@@ -376,24 +288,7 @@ export const POST = async (req: Request) => {
         ]
     });
 
-    // const response = await anthropic.messages.create({//-
-    //     model: "claude-3-5-sonnet-20240620",//-
-    //     max_tokens: 1000,//-
-    //     temperature: 0,//-
-    //     system: "Respond only with short comedy stories.",//-
-    //     messages: [//-
-    //         {//-
-    //             "role": "user",//-
-    //             "content": [//-
-    //                 {//-
-    //                     "type": "text",//-
-    //                     "text": prompt//-
-    //                 }//-
-    //             ]//-
-    //         }//-
-    //     ]//-
-    // });//-
-    // const content = response.content[0];//-
+    
     let responseText = '';
 
     if (response.choices && response.choices.length > 0) {
