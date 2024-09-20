@@ -3,7 +3,7 @@
 Clone the Project using git clone:
 
 Create a .env file with following entries -
-NEXT_PUBLIC_URL=
+NEXT_PUBLIC_URL= \n
 OPENAI_API_KEY=
 GITHUB_ID=
 GITHUB_SECRET=
