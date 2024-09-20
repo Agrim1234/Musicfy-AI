@@ -21,6 +21,8 @@ const Navbar = () => {
             else {
                 //collapsibleNavbar.style.display = "block";
                 collapsibleNavbar.style.height = 'auto';
+                collapsibleNavbar.style.zIndex = '100'
+                collapsibleNavbar.style.color = '#ffffff'
                 //collapsibleNavbar.style.padding = '10px'
             }
         }
@@ -50,8 +52,8 @@ const Navbar = () => {
                 <Image src={hamburgerImg} className='hamburgerImg invert z-100' height={24} width={24} alt='hamburger icon' />
             </button>
 
-            <div className="absolute right-0 mt-12 z-100 h-0 bg-slate-700 z-100 transition-all duration-[30s] overflow-hidden" id="mobile-menu">
-                <div className="space-y-1 px-2 pb-3 pt-2 h-full bg-slate-700 w-screen z-100 transition-all duration-[30s] overflow-hidden">
+            <div className="absolute right-0 mt-12 z-100 h-0 bg-slate-700 z-100 transition-all overflow-hidden" id="mobile-menu">
+                <div className="space-y-1 px-2 pb-3 pt-2 h-full bg-slate-700 w-screen z-100 transition-all overflow-hidden">
                     {/* <Link href="/" className="block rounded-md px-5 py-2 text-white z-100 font-medium hover:bg-gray-700 hover:text-white">
                         <span>Services</span>
                     </Link> */}
@@ -80,20 +82,12 @@ const Navbar = () => {
             </div>}
 
             <ul className='flex flex-row z-100 text-white gap-6 m-4 px-2 md:justify-between justify-around items-center hidden w-full md:inline-flex md:w-auto'>
-                {/* <li className='hover:font-bold transition-all duration-100 mx-3 z-100'>
-                    <Link className='inline-flex items-center z-100' href='/'>
-                        Services
-                        <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                        </svg> 
-                    </Link>
-                </li> */}
-                <li>
-                    <Link href={'/'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
+                <li className='z-100'>
+                    <Link href={'/'} className='z-100 hover:font-bold transition-all text-white duration-100 mx-3'>
                         Generate Comedy Show
                     </Link>
                 </li>
-                <li>
+                <li className='z-100'>
                     <Link href={'/generatemusic'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
                         Generate Music
                     </Link>

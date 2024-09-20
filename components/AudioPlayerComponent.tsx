@@ -6,7 +6,10 @@ import { IoMdDownload } from "react-icons/io";
 import WavesurferPlayer from '@wavesurfer/react'
 import WaveSurfer from 'wavesurfer.js'
 import Image from 'next/image';
+import { FaFacebookF } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
+import { MdEmail } from "react-icons/md";
 import { audioResponse } from '@/app/generatemusic/page';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { currentIndexUpdated } from '@/app/features/audioResponses/currentIndex';
@@ -19,7 +22,7 @@ type AudioPlayerComponentProps = {
 }
 
 
-const secondsToMinutesSeconds = (seconds: number):string => {
+const secondsToMinutesSeconds = (seconds: number): string => {
     if (isNaN(seconds) || seconds < 0) {
         return "00:00";
     }
@@ -114,7 +117,8 @@ const AudioPlayerComponent = () => {
         generateRequest,
     }
 
-    const audioResponses:audioResponse[] = useAppSelector(state => state.audioResponses)
+    const [showShareOptions, setShowShareOptions] = useState(false)
+    const audioResponses: audioResponse[] = useAppSelector(state => state.audioResponses)
     const nowPlayingIndex: number = useAppSelector(state => state.currentIndex)
     const dispatch = useAppDispatch()
     let waveform: any
@@ -122,6 +126,7 @@ const AudioPlayerComponent = () => {
     //const currentAudio = useRef<audioResponse>(responses[nowPlayingIndex]);
     const [state, setState] = useState({ playing: false });
     const [audioVolume, setAudioVolume] = useState<number>(100)
+    const [currentSongUrl, setCurrentSongUrl] = useState('')
 
     useEffect(() => {
         if (audioResponses.length > 0 && audioResponses[nowPlayingIndex].mediaFileStatus === fileStatus.loaded) {
@@ -164,6 +169,8 @@ const AudioPlayerComponent = () => {
                 console.error('WaveSurfer error:', error);
             });
 
+            setCurrentSongUrl(`${process.env.NEXT_PUBLIC_URL}/${audioResponses[nowPlayingIndex].song.srcUrl}`)
+
             return () => {
                 if (waveformRef.current) {
                     waveformRef.current.destroy();
@@ -181,21 +188,22 @@ const AudioPlayerComponent = () => {
         }
     };
 
-    // const handleShare = async () => {
-    //     if (navigator.share) {
-    //         try {
-    //             await navigator.share({
-    //                 title: waveformRef.current.song.name,
-    //                 url: trackUrl,
-    //             });
-    //             console.log('Track shared successfully');
-    //         } catch (error) {
-    //             console.error('Error sharing track:', error);
-    //         }
-    //     } else {
-    //         console.log('Web Share API is not supported in this browser');
-    //     }
-    // };
+    const handleShare = async () => {
+        if (navigator.share && waveformRef.current) {
+            try {
+                await navigator.share({
+                    title: 'users song',
+                    url: `${process.env.NEXT_PUBLIC_URL}/${audioResponses[nowPlayingIndex].song.srcUrl}`
+                });
+                console.log('Track shared successfully');
+            } catch (error) {
+                console.error('Error sharing track:', error);
+            }
+        } else {
+            //alert(`Web Share API is not supported in this browser. This is the song Url: ${process.env.NEXT_PUBLIC_URL}${audioResponses[nowPlayingIndex].song.srcUrl}`);
+            setShowShareOptions(!showShareOptions);
+        }
+    };
 
     const downloadAudioFile = async (url: string, fileName: string): Promise<void> => {
         try {
@@ -235,7 +243,7 @@ const AudioPlayerComponent = () => {
     const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value);
         setAudioVolume(parseInt(e.target.value))
-        waveformRef.current?.setVolume(parseInt(e.target.value)/2)
+        waveformRef.current?.setVolume(parseInt(e.target.value) / 2)
         console.log(waveformRef.current?.getVolume())
     }
 
@@ -335,12 +343,43 @@ const AudioPlayerComponent = () => {
                         <MdSkipNext className='text-4xl flex align-middle items-center w-full' />
                     </button>
                 </div>
-                <div className='flex items-center'>
-                    <button className="w-[60px] h-[60px] flex justify-center items-center rounded-full border-none outline-none cursor-pointer" title="Share on social media">
+                <div className='flex items-center relative'>
+                    <button className="w-[60px] h-[60px] flex justify-center items-center rounded-full border-none outline-none cursor-pointer" onClick={() => handleShare()} title="Share on social media">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="flex items-center justify-center h-full text-white">
                             <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
                         </svg>
                     </button>
+                    {showShareOptions && (
+                        <div className="share-options absolute bg-black border-[1px] border-white p-3 -left-10 rounded-xl">
+                            <ul className='flex flex-col gap-3'>
+                                <li>
+                                    <a
+                                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentSongUrl)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <FaFacebookF className='text-2xl text-white'/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('users song')}&url=${encodeURIComponent(currentSongUrl)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <FaTwitter className='text-2xl text-white'/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href={`mailto:?subject=Check out this song: ${encodeURIComponent('users song')}&body=${encodeURIComponent(currentSongUrl)}`}
+                                    >
+                                        <MdEmail className='text-2xl text-white'/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                     <button className='w-[60px] h-[60px] rounded-full flex align-middle items-center border-none outline-none cursor-pointer' onClick={handleDownload}>
                         <IoMdDownload className='text-2xl text-white w-full flex items-center' />
                     </button>

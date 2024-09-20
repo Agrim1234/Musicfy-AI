@@ -122,19 +122,25 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         await driver.get('https://app.runwayml.com/video-tools/teams/persistdomains/ai-tools/generative-video'); // Replace with the actual URL
 
         await driver.sleep(3000);
-        await driver.wait(until.elementLocated(By.css('button.BaseModelSelector__TriggerStyled-sc-1ed3w6f-0.OSTyQ')), 20000);
+        // await driver.wait(until.elementLocated(By.css('button.BaseModelSelector__TriggerStyled-sc-1ed3w6f-0.OSTyQ')), 20000);
+
+        await driver.sleep(3000);
 
 
-        const returnElement = await driver.findElement(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[2]/div/div'));
-        const valueReturn = await returnElement.click();
-        console.log(valueReturn)
-        console.log('return button clicked');
+        // const returnElement = await driver.findElement(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[2]/div/div'));
+        // const valueReturn = await returnElement.click();
+        // console.log(valueReturn)
+        // console.log('return button clicked');
 
+        await driver.sleep(3000);
+
+        await driver.sleep(3000);
         const fileInput = await driver.findElement(By.xpath('//*[@id="data-panel-id-left-panel-panel-top"]/div/div[2]/div'));
         const filePath = path.resolve(process.cwd(), imgUrl); 
         console.log(filePath)
         console.log(fileInput)
 
+        await driver.sleep(3000);
         const imageData = fs.readFileSync(filePath, 'base64');
 
         const jsScript = `
@@ -169,9 +175,9 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         await driver.wait(until.elementLocated(By.xpath('//*[@id="magic-tool-main-container"]/div/div/div[3]/div/div[1]/div/main/div')), 25000);
         console.log('image loading complete')
 
-        await driver.wait(until.elementIsEnabled(driver.findElement(By.css('div.Wrapper-module__fade__D0g3g.advanced-cropper-fade.advanced-cropper-fade--visible'))))
-        await driver.wait(until.elementIsEnabled(driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU.ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0.bHEvyM'))));
-        const cropElement = await driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU.ImagePromptEditorPanel__PrimaryButtonStyled-sc-13f4vw2-0.bHEvyM'));
+        await driver.wait(until.elementIsEnabled(driver.findElement(By.css('div.advanced-cropper-fade--visible'))))
+        await driver.wait(until.elementIsEnabled(driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU'))));
+        const cropElement = await driver.findElement(By.css('button.Button-sc-c1bth8-0.Button__StyledButton-sc-c1bth8-1.kjAqmU'));
 
         console.log(cropElement)
         await driver.wait(until.elementIsVisible(cropElement), 10000);
@@ -194,7 +200,7 @@ async function automateRunwayML({ imgUrl,videoUrl, prompt }: automateVideoGenera
         await driver.findElement(By.xpath('//*[@id="data-panel-id-left-panel-panel-bottom" and not(@disabled)]/div/div/div/div/div[1]')).sendKeys(`Visual: ${prompt} Camera motion: camera fixed at one position`);
         console.log('text prompt entered');
 
-        const durationElement = await driver.findElement(By.css('button.EuropaDurationButton__Button-sc-1ehwadc-0.ckSFxu'));
+        const durationElement = await driver.findElement(By.css('button.EuropaDurationButton__Button-sc-8nhilp-1'));
         await durationElement.click();
         await driver.sleep(2000)
         const fivesecElement = await driver.findElement(By.xpath('//div[text() = "5 seconds"]'));  

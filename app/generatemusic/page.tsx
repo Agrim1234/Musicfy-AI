@@ -197,27 +197,24 @@ const Page = () => {
 
                 <MusicCustomizationComponent childData={handleChildData} />
 
-                {audioResponses.length === 0 && <div className='w-2/6 h-[50vh] flex justify-center items-center'>
+                {audioResponses.length === 0 && <div className='w-2/6 h-[70vh] z-0 flex  justify-center items-center'>
                     <div className='main flex flex-col items-center'>
-                        <Image src={'/mainScreenLogo.png'} alt={"main image"} width={150} height={200} />
+                        <Image src={'/mainScreenLogo.png'} alt={"main image"} width={150} height={200} className='z-0' />
                         <h1 className='text-4xl text-center'>Welcome to AI Music generator</h1>
                         <p className='text-xl text-center'>Let&apos;s create something truly mind blowing</p>
                     </div>
                 </div>}
 
-                {audioResponses.length !== 0 && <div className='main h-[80vh] overflow-auto scroll-smooth bg-slate-300 w-2/6 m-md rounded-lg'>
+                {audioResponses.length !== 0 && <div className='main h-[80vh] z-0 overflow-auto scroll-smooth bg-slate-300 w-2/6 m-md rounded-lg'>
                     {audioResponses.map((item) => {
-                        return <div key={item.id} className='flex flex-col'>
-                            {/* <div className="m-lg bg-slate-700 text-white p-md shadow-2xl rounded-lg">
-                                {item.userPrompt}
-                            </div> */}
-                            <div className="mx-lg my-sm bg-slate-400 p-md shadow-2xl rounded-lg flex flex-col gap-4">
+                        return <div key={item.id} className='flex flex-col z-0'>
+                            <div className="mx-lg my-sm bg-slate-400 p-md shadow-2xl rounded-lg flex flex-col z-0 gap-4">
                                 {/* <p>{item.value}</p> */}
                                 {
-                                    item.mediaFileStatus === fileStatus.loading && (item.type === 'promptResponseMusic') && <div><Image src="/loading.gif" alt="loading for slow net" width={68} height={150} className='bg-transparent invert' /></div>
+                                    item.mediaFileStatus === fileStatus.loading && (item.type === 'promptResponseMusic') && <div><Image src="/loading.gif" alt="loading for slow net" width={68} height={150} className='bg-transparent invert z-0' /></div>
                                 }
 
-                                {item.type === 'promptResponseMusic' && item.mediaFileStatus === fileStatus.loaded && <div className='flex flex-col gap-4' onClick={() => handleMusicCardClick(item.id)}>
+                                {item.type === 'promptResponseMusic' && item.mediaFileStatus === fileStatus.loaded && <div className='flex z-0 flex-col gap-4' onClick={() => handleMusicCardClick(item.id)}>
                                     {
                                         item.song.srcUrl && <MusicTrackCardComponent song={item.song}  />
                                     }
@@ -228,9 +225,6 @@ const Page = () => {
                 </div>}
 
                 <div className='footer w-screen flex justify-center gap-4 absolute bottom-0 bg-slate-200 items-center'>
-                    {/* <input type="text" className='w-[72vw] h-[45px] border-2 border-black p-sm rounded-lg' value={prompt ? prompt : ''} onChange={handleChange} />
-                    <button className='border-[1px] border-black p-sm rounded-lg bg-white' onClick={handleClickMusic}>Generate Music</button> */}
-                    {/* <MusicCustomizationComponent childData={handleChildData} /> */}
                     {
                         audioResponses.length !== 0 && currentIndex !== undefined && audioResponses[currentIndex] && audioResponses[currentIndex].mediaFileStatus === fileStatus.loaded &&
                         <AudioPlayerComponent />

@@ -46,7 +46,7 @@ const MusicCustomizationComponent = ({ childData }: any) => {
     }
 
     return (
-        <div className='w-4/6 p-lg bg-slate-300 rounded-lg m-md'>
+        <div className='w-4/6 p-lg bg-slate-300 rounded-lg z-0 m-md'>
 
             <div className='flex flex-col gap-4 w-full p-md'>
                 <div className="max-w-[100%] grow  border-[1px] border-black rounded-lg flex flex-col gap-8 p-lg w-full">
