@@ -39,13 +39,8 @@ const Page = () => {
     const audioResponses = useAppSelector(state => state.audioResponses)
     const currentIndex: number  = useAppSelector(state => state.currentIndex)
     const dispatch = useAppDispatch()
-
     const { data: session } = useSession()
-    //const [prompt, setPrompt] = useState<string>('')
-    //const [videoData, setVideoData] = useState('')
     const [currentUser, setCurrentUser] = useState<ObjectUser>({ DataCustomMusic: [], DataComedyShow: [], email: '', username: '' })//+
-    //const [promptResponse, setPromptResponse] = useState<objectPromptResponse>()
-    //const [currentIndex, setCurrentIndex] = useState<number>()
     console.log(audioResponses)
 
     const getData = async () => {
@@ -80,44 +75,9 @@ const Page = () => {
     useEffect(() => {
         if (session && session.user?.email && audioResponses.length !== 0 && audioResponses !== currentUser.DataCustomMusic) {
             console.log(audioResponses, 'responses at session')
-            //setCurrentUser({ Data: responses, email: session.user?.email, username: session.user?.email.split("@")[0] })
             updateUserData({ DataCustomMusic: audioResponses, DataComedyShow: currentUser.DataComedyShow, email: session.user?.email, username: session.user?.email.split("@")[0] })
         }
     }, [audioResponses])
-
-    // useEffect(() => {
-    //     if (promptResponse && !responses.find(r => r.value === prompt)) {
-    //         setResponses([...responses, { ...promptResponse, id: uuidv4(), isPlaying: false }])
-    //     }
-    //     console.log(responses)
-    // }, [promptResponse])
-
-    // const handleChange = (e: any) => {
-    //     setPrompt(e.target.value)
-    // }
-
-    // const handleClickMusic = async () => {
-    //     let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-music`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ prompt }),
-    //     })
-
-    //     let data = await response.json();
-    //     //console.log(data)
-    //     setPromptResponse({ value: data, userPrompt: prompt, type: 'promptResponseMusic', mediaFileStatus: fileStatus.notLoading, mediaUrl: undefined });
-    // }
-
-    // const handleMusicCustomization = (targetId: string) => {
-    //     let targetElement = responses.find(r => r.id === targetId);
-    //     if (targetElement) {
-    //         setResponses(responses => responses.map(r =>
-    //             r.id === targetId ? { ...r, mediaFileStatus: fileStatus.generateRequest } : r
-    //         ))
-    //     }
-    // }
 
     const handleGenerateMusicFile = async (musicGenerationData: musicChildComponentDatatype): Promise<void> => {
         const { id, tag, prompt, speedValue, clarityValue } = musicGenerationData
@@ -138,16 +98,6 @@ const Page = () => {
             },
             isPlaying: false
         }))
-        // setResponses([...responses, { value: undefined, id: elementId, isPlaying: false, userPrompt: prompt, type: 'promptResponseMusic', mediaFileStatus: fileStatus.loading, song: { imageUrl: '', srcUrl: '', likes: 0, duration: '0:0' } }])
-        // let targetElement = responses.find(r => r.id === id);
-        // let promptMusicGeneration: string | undefined = '';
-        // if (targetElement) {
-        //     promptMusicGeneration = targetElement.value
-        //     setResponses(responses => responses.map(r =>
-        //         r.id === id ? { ...r, mediaFileStatus: fileStatus.loading } : r
-        //     ))
-        // }
-        //console.log(promptMusicGeneration)
 
         let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-music-file`, {
             method: 'POST',
@@ -161,10 +111,6 @@ const Page = () => {
         console.log(data.file, data.error, data.value, data.duration, data.imageUrl,);
 
         if (data.file) {
-            //setResponses(responses => responses.map(r => {console.log(r.id); return r;}));
-            // setResponses(responses => responses.map(r =>
-            //     r.id === elementId ? { ...r, song: { duration: data.duration, likes: 0, name:'User song', imageUrl: data.imageUrl, srcUrl: `/${data.file}` }, value: data.value, mediaFileStatus: fileStatus.loaded } : r
-            // ))
             dispatch(audioResponseUpdated({
                 userPrompt: prompt,
                 value: data.value,
@@ -180,7 +126,6 @@ const Page = () => {
 
     const handleChildData = (musicGenerationData: any) => {
         console.log('Selected tag:', musicGenerationData);
-        // You can perform any action here with the selected tag.
         handleGenerateMusicFile(musicGenerationData)
     };
 

@@ -45,7 +45,7 @@ const Navbar = () => {
         <div className='bg-[#121e2c] flex flex-row justify-between px-2 w-screen fixed top-0 left-0 z-100 relative'>
             <h3 className='m-md z-100 text-white'>
                 <Link href={'/'}>
-                    Comedy@AI - AI meets comedy
+                    Musicfy@AI - AI meets Music
                 </Link>
             </h3>
             <button className='md:hidden hamburgerBtn transition-all z-100 duration-1000' onClick={hamburgerClick} >
@@ -83,12 +83,7 @@ const Navbar = () => {
 
             <ul className='flex flex-row z-100 text-white gap-6 m-4 px-2 md:justify-between justify-around items-center hidden w-full md:inline-flex md:w-auto'>
                 <li className='z-100'>
-                    <Link href={'/'} className='z-100 hover:font-bold transition-all text-white duration-100 mx-3'>
-                        Generate Comedy Show
-                    </Link>
-                </li>
-                <li className='z-100'>
-                    <Link href={'/generatemusic'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
+                    <Link href={'/'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
                         Generate Music
                     </Link>
                 </li>

@@ -76,54 +76,6 @@ const mergeAudio = async ({ fileInput, outputFile, tag, clarityValue, speedValue
 export const POST = async (req: any) => {
     const { elementId, tag, speedValue, clarityValue, prompt } = await req.json();
 
-    //console.log(prompt, " ", id, " ", speedValue, clarityValue, " ", tag)
-    // let raw = JSON.stringify({
-    //     "key": '******',
-    //     "genres": [
-    //         "Electronica"
-    //     ],
-    //     "moods": [
-    //         "Busy & Frantic"
-    //     ],
-    //     "themes": [
-    //         "Ads & Trailers"
-    //     ],
-    //     "length": 60,
-    //     "file_format": [
-    //         "wav"
-    //     ],
-    //     "mute_stems": [
-    //         "bs"
-    //     ],
-    //     "tempo": [
-    //         "normal"
-    //     ],
-    //     "energy_levels": [
-    //         {
-    //             "start": 0,
-    //             "end": 6.5,
-    //             "energy": "Very High"
-    //         }
-    //     ]
-    // });
-
-
-
-    // const response = await fetch('https://soundraw.io/api/v2/musics/compose', { method: 'POST', body: raw, headers: { 'Content-Type': 'application/json' } });
-
-
-    // A simple function to map promptMusicGeneration characters to musical notes
-    // const notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
-    // const noteSequence = [];
-
-    // // Map each character to a note based on its char code
-    // for (let i = 0; i < promptMusicGeneration.length; i++) {
-    //     const charCode = promptMusicGeneration.charCodeAt(i);
-    //     const noteIndex = charCode % notes.length;
-    //     noteSequence.push(notes[noteIndex]);
-    // }
-
-
     if (!prompt) {
         return NextResponse.json({ error: 'promptMusicGeneration query parameter is required' });
     }
@@ -199,35 +151,4 @@ export const POST = async (req: any) => {
         console.error('Error:', error);
         return NextResponse.json({ error: 'Failed to generate or process speech' });
     }
-
-    // let response = undefined
-    // exec('ffmpeg -i ' + overlayPath + ' -i public/child-audio.mp3 -filter_complex "amix=inputs=2:duration=first" ' + outputPath + ' -y', (error, stdout, stderr) => {
-    //     // ... (same error handling and output file availability as above)
-    //     return NextResponse.json({ file: outputPath });
-    // });
-
-    //console.log(response)
-
-    // try {
-    //   // Get the Base64-encoded audio data
-    //   // const audioBase64 = await new Promise((resolve, reject) => {
-    //   //   speech.getAudioBase64((err, base64) => {
-    //   //     if (err) reject(err);
-    //   //     else resolve(base64);
-    //   //   });
-    //   // });
-
-    //   // Convert Base64 to Buffer
-    //   //const audioBuffer = Buffer.from(audioBase64, 'base64');
-
-    //   // await fs.writeFile(filePath, speech.toString(), (err) => {
-    //   //   if (err) throw err;
-    //   //   console.log('The file has been saved!');
-    //   // }
-    //   // )
-
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   //return NextResponse.json({ error: 'Failed to generate or process speech' });
-    // }
 }
