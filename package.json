@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.26.1",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@uploadthing/react": "^7.0.2",
     "@wavesurfer/react": "^1.0.7",
     "axios": "^1.7.7",
     "chromedriver": "^128.0.1",
@@ -32,6 +33,7 @@
     "selenium-webdriver": "^4.24.0",
     "sox-audio": "^0.3.0",
     "tone": "^15.0.4",
+    "uploadthing": "^7.0.2",
     "uuid": "^10.0.0",
     "wavesurfer.js": "^7.8.4",
     "webpack": "^5.94.0"

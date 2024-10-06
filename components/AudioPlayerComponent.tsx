@@ -21,7 +21,6 @@ type AudioPlayerComponentProps = {
     nowPlayingIndex: number,
 }
 
-
 const secondsToMinutesSeconds = (seconds: number): string => {
     if (isNaN(seconds) || seconds < 0) {
         return "00:00";
@@ -36,79 +35,7 @@ const secondsToMinutesSeconds = (seconds: number): string => {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-
 const AudioPlayerComponent = () => {
-
-    // const playList = [
-    //     {
-    //         writer: 'writer',
-    //         src: audioResponses[nowPlayingIndex].song.srcUrl,
-    //         name: name,
-    //         id: id,
-    //     },
-    // ]
-
-
-
-    // const [wavesurfer, setWavesurfer] = useState(null)
-    // const [isPlaying, setIsPlaying] = useState(false)
-
-    // const onReady = (ws: React.SetStateAction<null>) => {
-    //     setWavesurfer(ws)
-    //     setIsPlaying(false)
-    // }
-
-    // const onPlayPause = () => {
-    //     wavesurfer && wavesurfer.playPause()
-    // }
-
-
-    // const playSong = (targetId: string) => {
-    //     if (responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl) {
-    //         const audio = new Audio(responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl);
-    //         if (!audio.play()) {
-    //             audio.play();
-    //         }
-    //     }
-    // }
-
-    // const handleSeeked = (e: any, targetId: string) => {
-    //     if (responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl) {
-    //         const audio = new Audio(responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl);
-    //         console.log(audio.duration, e.target.value, e.target.getBoundingClientRect().width)
-    //         // if (audioRef.current) {
-    //         //     audioRef.current.currentTime = (e.target.value / e.target.getBoundingClientRect().width);
-    //         // }  
-    //     }
-    // }
-
-    // const handleVolumeChange = (e: any, targetId: string) => {
-    //     if (responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl) {
-    //         const audio = new Audio(responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl);
-    //         audio.volume = e.target.value;
-    //     }
-    // }
-
-    // const pauseSong = (targetId: string) => {
-    //     if (responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl) {
-    //         const audio = new Audio(responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl);
-    //         console.log(audio)
-    //         if (!audio.paused) {
-    //             audio.pause();
-    //         }
-    //     }
-    // }
-
-    // const playVideo = (targetId: string) => {
-    //     if (responses.find(r => r.id === targetId)?.audioResponses[nowPlayingIndex].song.srcUrl) {
-    //         const video = document.getElementById(targetId);
-    //         if (video) {
-    //             setResponses(responses => responses.map(r =>
-    //                 r.id === targetId ? { ...r, isPlaying: true } : r
-    //             ))
-    //         }
-    //     }
-    // }
 
     enum fileStatus {
         notLoading,

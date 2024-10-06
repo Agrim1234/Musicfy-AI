@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ReactPlayer from 'react-player'
 import { useSession } from "next-auth/react";
-import {  ObjectUser, objectPromptResponse } from "@/app/page";
+import { ObjectUser, objectPromptResponse } from "@/app/page";
 import { fetchuser, updateProfile } from "@/actions/useractions";
 import AudioPlayerComponent from "@/components/AudioPlayerComponent";
 import MusicCustomizationComponent, { musicChildComponentDatatype } from "@/components/MusicCustomizationComponent";
@@ -37,7 +37,7 @@ export type audioResponse = {
 const Page = () => {
 
     const audioResponses = useAppSelector(state => state.audioResponses)
-    const currentIndex: number  = useAppSelector(state => state.currentIndex)
+    const currentIndex: number = useAppSelector(state => state.currentIndex)
     const dispatch = useAppDispatch()
     const { data: session } = useSession()
     const [currentUser, setCurrentUser] = useState<ObjectUser>({ DataCustomMusic: [], DataComedyShow: [], email: '', username: '' })//+
@@ -58,8 +58,8 @@ const Page = () => {
             console.log(currentUser.DataCustomMusic, 'current User log')
             currentUser.DataCustomMusic.forEach(element => {
                 if (audioResponses.find(r => r.id === element.id)) {
-                    
-                }else{
+
+                } else {
                     dispatch(audioResponseAdded(element))
                 }
             });
@@ -90,9 +90,9 @@ const Page = () => {
             id: elementId,
             mediaFileStatus: fileStatus.loading,
             song: {
-                likes: 0, 
-                name: 'User song', 
-                imageUrl: '', 
+                likes: 0,
+                name: 'User Poem',
+                imageUrl: '',
                 srcUrl: ``,
                 duration: ''
             },
@@ -108,16 +108,16 @@ const Page = () => {
         })
 
         let data = await response.json();
-        console.log(data.file, data.error, data.value, data.duration, data.imageUrl,);
+        console.log(data.file, data.error, data.value, data.duration, data.imageUrl, data.poemData);
 
         if (data.file) {
             dispatch(audioResponseUpdated({
-                userPrompt: prompt,
+                userPrompt: data.poemData,
                 value: data.value,
                 type: 'promptResponseMusic',
                 id: elementId,
                 mediaFileStatus: fileStatus.loaded,
-                song: { duration: data.duration, likes: 0, tags: [tag], name:'User song', imageUrl: data.imageUrl, srcUrl: `/${data.file}` },
+                song: { duration: data.duration, likes: 0, tags: [tag], name: 'User song', imageUrl: data.imageUrl, srcUrl: data.file },
                 isPlaying: false
             }))
         }
@@ -145,7 +145,7 @@ const Page = () => {
                 {audioResponses.length === 0 && <div className='w-2/6 h-[70vh] z-0 flex  justify-center items-center'>
                     <div className='main flex flex-col items-center'>
                         <Image src={'/mainScreenLogo.png'} alt={"main image"} width={150} height={200} className='z-0' />
-                        <h1 className='text-4xl text-center'>Welcome to AI Music generator</h1>
+                        <h1 className='text-4xl text-center'>Welcome to AI Poem generator</h1>
                         <p className='text-xl text-center'>Let&apos;s create something truly mind blowing</p>
                     </div>
                 </div>}
@@ -160,8 +160,11 @@ const Page = () => {
                                 }
 
                                 {item.type === 'promptResponseMusic' && item.mediaFileStatus === fileStatus.loaded && <div className='flex z-0 flex-col gap-4' onClick={() => handleMusicCardClick(item.id)}>
+                                    <div className='whitespace-pre-line'>
+                                        {item.value && item.value.replace(/\./g, '.\n')}
+                                    </div>
                                     {
-                                        item.song.srcUrl && <MusicTrackCardComponent song={item.song}  />
+                                        item.song.srcUrl && <MusicTrackCardComponent song={item.song} />
                                     }
                                 </div>}
                             </div>
