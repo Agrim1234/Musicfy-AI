@@ -150,7 +150,7 @@ const Page = () => {
                     </div>
                 </div>}
 
-                {audioResponses.length !== 0 && <div className='main h-[80vh] z-0 overflow-auto scroll-smooth bg-slate-300 w-2/6 m-md rounded-lg'>
+                {audioResponses.length !== 0 && <div className='main h-[59vh] z-0 overflow-auto scroll-smooth bg-slate-300 w-2/6 m-md rounded-lg'>
                     {audioResponses.map((item) => {
                         return <div key={item.id} className='flex flex-col z-0'>
                             <div className="mx-lg my-sm bg-slate-400 p-md shadow-2xl rounded-lg flex flex-col z-0 gap-4">

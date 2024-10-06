@@ -37,14 +37,26 @@ const secondsToMinutesSeconds = (seconds: number): string => {
 //     //    ^? UploadedFileResponse[]
 // }
 
-async function createAndUploadAudioFile(text: string) {
+async function createAndUploadAudioFile(text: string, tag: string) {
+    let person = '';
+    if (!text) {
+        return;
+    }
+
+    if (tag === 'Male') {
+        person = 'Brian';
+    }else{
+        person = 'Joanna'
+    }
+
     const response : any = await fetch(process.env.NEXT_PUBLIC_FETCH_AUDIO ? process.env.NEXT_PUBLIC_FETCH_AUDIO : '', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            promptResponse: text
+            promptResponse: text,
+            personName: person
         }),
     });
     console.log("response:", response)
@@ -100,6 +112,8 @@ const mergeAudio = async ({ fileInput, outputFile, tag, clarityValue, speedValue
 export const POST = async (req: any) => {
     const { elementId, tag, speedValue, clarityValue, prompt } = await req.json();
 
+    console.log(tag);
+
     if (!prompt) {
         return NextResponse.json({ error: 'promptMusicGeneration query parameter is required' });
     }
@@ -123,18 +137,18 @@ export const POST = async (req: any) => {
         responseText = response.choices[0].message.content || '';
     }
 
-    console.log(responseText)
+    //console.log(responseText)
 
-    const responseUrl = await createAndUploadAudioFile(responseText);
+    const responseUrl = await createAndUploadAudioFile(responseText, tag);
 
     // Generate speech from the prompt using Google Text-to-Speech API
-    const speech = new gtts(responseText, 'en');
+    //const speech = new gtts(responseText, 'en');
     //const backgroundPath = 'public/child-audio.mp3'
-    const inputFilePath = `tmp/${elementId}_speech.mp3`
-    const outputFilePath = `tmp/${elementId}_output.mp3`
-    const filePath = path.join(process.cwd(), 'tmp', `${elementId}_speech.mp3`);
-    console.log(filePath)
-    const filePathOutput = path.join(process.cwd(), outputFilePath);
+    //const inputFilePath = `tmp/${elementId}_speech.mp3`
+    //const outputFilePath = `tmp/${elementId}_output.mp3`
+    //const filePath = path.join(process.cwd(), 'tmp', `${elementId}_speech.mp3`);
+    //console.log(filePath)
+    //const filePathOutput = path.join(process.cwd(), outputFilePath);
     let durationAudioFile = '0:0';
 
     // // Remove old overlay file if it exists
@@ -143,7 +157,7 @@ export const POST = async (req: any) => {
     // }
 
     // // Save the generated speech to a temporary file
-    let output = `/animation-music.mp3`;
+    //let output = `/animation-music.mp3`;
     // console.log(speech);
     try {
     //     await new Promise((resolve, reject) => {
@@ -176,9 +190,9 @@ export const POST = async (req: any) => {
         });
 
         const image_url = responseImageUrl.data[0].url;
-        console.log(image_url);
+        //console.log(image_url);
 
-        console.log(output)
+        //console.log(output)
         return NextResponse.json({ file: responseUrl, value: responseText, imageUrl: image_url, duration: durationAudioFile, poemData: responseText });
     } catch (error) {
         console.error('Error:', error);
