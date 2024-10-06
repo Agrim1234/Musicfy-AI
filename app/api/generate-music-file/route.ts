@@ -5,7 +5,7 @@ import OpenAi from "openai"
 import fs from 'fs';
 import { exec } from 'child_process';
 import { tagFileData } from '@/app/constants';
-import { utapi } from "@/app/api/uploadthing/route";
+//import { utapi } from "@/app/api/uploadthing/route";
 
 
 type mergeAudioProps = {
@@ -30,12 +30,12 @@ const secondsToMinutesSeconds = (seconds: number): string => {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function uploadFiles(file: File) {
-    // const files = formData.getAll("files") as File[];
-    const response = await utapi.uploadFiles(file);
-    return response;
-    //    ^? UploadedFileResponse[]
-}
+// async function uploadFiles(file: File) {
+//     // const files = formData.getAll("files") as File[];
+//     const response = await utapi.uploadFiles(file);
+//     return response;
+//     //    ^? UploadedFileResponse[]
+// }
 
 async function createAndUploadAudioFile(text: string) {
     const response : any = await fetch(process.env.NEXT_PUBLIC_FETCH_AUDIO ? process.env.NEXT_PUBLIC_FETCH_AUDIO : '', {
