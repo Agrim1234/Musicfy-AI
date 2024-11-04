@@ -6,11 +6,11 @@ const Page = () => {
       <h1>About Us</h1>
       
       <section>
-        <h2>Welcome to Poemify@AI</h2>
+        <h2>Welcome to Musicfy@AI</h2>
         <p>
-          Here at Poemify@AI, we believe in the power of Poem to bring people together. 
-          In a world thats constantly evolving, so is Poem. Thats why weve harnessed the cutting-edge 
-          capabilities of artificial intelligence to create a platform where Poems knows no bounds.
+          Here at Musicfy@AI, we believe in the power of Music to bring people together. 
+          In a world thats constantly evolving, so is Music. Thats why weve harnessed the cutting-edge 
+          capabilities of artificial intelligence to create a platform where Music knows no bounds.
         </p>
       </section>
       

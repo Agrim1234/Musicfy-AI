@@ -45,7 +45,7 @@ const Navbar = () => {
         <div className='bg-[#121e2c] flex flex-row justify-between px-2 w-screen fixed top-0 left-0 z-100 relative'>
             <h3 className='m-md z-100 text-white'>
                 <Link href={'/'}>
-                    Poemify@AI - AI produces Poem
+                    Musicfy@AI - AI meets Music
                 </Link>
             </h3>
             <button className='md:hidden hamburgerBtn transition-all z-100 duration-1000' onClick={hamburgerClick} >
@@ -61,7 +61,10 @@ const Navbar = () => {
                         Generate Comedy Show
                     </Link> */}
                     <Link href="/generatemusic" className="block rounded-md px-5 py-2 text-white font-medium z-100 hover:bg-gray-700 hover:text-white">
-                        Generate Poem
+                        Generate Music
+                    </Link>
+                    <Link href={'/editMusic'} className='z-100'>
+                        Edit Music
                     </Link>
                     <Link href="/aboutus" className="block rounded-md px-5 py-2 text-white font-medium z-100 hover:bg-gray-700 hover:text-white">
                         About us
@@ -84,7 +87,12 @@ const Navbar = () => {
             <ul className='flex flex-row z-100 text-white gap-6 m-4 px-2 md:justify-between justify-around items-center hidden w-full md:inline-flex md:w-auto'>
                 <li className='z-100'>
                     <Link href={'/'} className='z-100 hover:font-bold transition-all duration-100 mx-3'>
-                        Generate Poem
+                        Generate Music
+                    </Link>
+                </li>
+                <li className='hover:font-bold transition-all duration-100 mx-3 z-100'>
+                    <Link href={'/editMusic'} className='z-100'>
+                        Edit Music
                     </Link>
                 </li>
                 <li className='hover:font-bold transition-all duration-100 mx-3 z-100'>

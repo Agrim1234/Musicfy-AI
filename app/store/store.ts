@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import audioResponsesReducer from '@/app/features/audioResponses/audioResponse'
 import currentIndexReducer from '@/app/features/audioResponses/currentIndex'
 import videoResponsesReducer from '../features/videoResponses/videoResponse'
+import audioFilesToBeEditedReducer from '../features/audioFilesToBeEdited/audioFilesToBeEdited'
 
 // Define the initial state
 
@@ -13,7 +14,8 @@ const store = configureStore({
     reducer: {
        audioResponses: audioResponsesReducer,
        currentIndex: currentIndexReducer,
-       videoResponses: videoResponsesReducer 
+       videoResponses: videoResponsesReducer, 
+       audioFilesToBeEdited: audioFilesToBeEditedReducer
     },
 })
 

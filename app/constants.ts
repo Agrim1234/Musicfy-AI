@@ -1,3 +1,9 @@
+type tagFileDataProps = {
+    id: string,
+    tagName : string,
+    fileName: string,
+}
+
 export const tagFileData = [
     {
         id: '1',
@@ -99,8 +105,9 @@ export const tagFileData = [
         tagName: 'Upbeat',
         fileName: 'public/upbeat.mp3'
     }
-
-
-
-
 ]
+
+export const tagFileMap = new Map(tagFileData.map(item => [item.tagName, item.fileName]));
+
+
+  

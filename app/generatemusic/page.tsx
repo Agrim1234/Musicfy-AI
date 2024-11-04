@@ -8,9 +8,9 @@ import ReactPlayer from 'react-player'
 import { useSession } from "next-auth/react";
 import { ObjectUser, objectPromptResponse } from "@/app/page";
 import { fetchuser, updateProfile } from "@/actions/useractions";
-import AudioPlayerComponent from "@/components/AudioPlayerComponent";
-import MusicCustomizationComponent, { musicChildComponentDatatype } from "@/components/MusicCustomizationComponent";
-import MusicTrackCardComponent from '@/components/MusicTrackCardComponent';
+import AudioPlayerComponent from "@/components/generateMusic/AudioPlayerComponent";
+import MusicCustomizationComponent, { musicChildComponentDatatype } from "@/components/generateMusic/MusicCustomizationComponent";
+import MusicTrackCardComponent from '@/components/generateMusic/MusicTrackCardComponent';
 import { useAppSelector } from '@/app/hooks'
 import { useAppDispatch } from '@/app/hooks'
 import { audioResponseAdded, audioResponseUpdated } from '@/app/features/audioResponses/audioResponse'
@@ -80,7 +80,7 @@ const Page = () => {
     }, [audioResponses])
 
     const handleGenerateMusicFile = async (musicGenerationData: musicChildComponentDatatype): Promise<void> => {
-        const { id, tag, prompt, speedValue, clarityValue } = musicGenerationData
+        const { id, tag, prompt, speedValue, clarityValue, backgroundMusic } = musicGenerationData
         console.log(id)
         const elementId = uuidv4()
         dispatch(audioResponseAdded({
@@ -104,7 +104,7 @@ const Page = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ elementId, tag, speedValue, clarityValue, prompt }),
+            body: JSON.stringify({ elementId, tag, speedValue, clarityValue, prompt, backgroundMusic }),
         })
 
         let data = await response.json();
@@ -145,7 +145,7 @@ const Page = () => {
                 {audioResponses.length === 0 && <div className='w-2/6 h-[70vh] z-0 flex  justify-center items-center'>
                     <div className='main flex flex-col items-center'>
                         <Image src={'/mainScreenLogo.png'} alt={"main image"} width={150} height={200} className='z-0' />
-                        <h1 className='text-4xl text-center'>Welcome to AI Poem generator</h1>
+                        <h1 className='text-4xl text-center'>Welcome to AI Music generator</h1>
                         <p className='text-xl text-center'>Let&apos;s create something truly mind blowing</p>
                     </div>
                 </div>}
@@ -160,9 +160,9 @@ const Page = () => {
                                 }
 
                                 {item.type === 'promptResponseMusic' && item.mediaFileStatus === fileStatus.loaded && <div className='flex z-0 flex-col gap-4' onClick={() => handleMusicCardClick(item.id)}>
-                                    <div className='whitespace-pre-line'>
+                                    {/* <div className='whitespace-pre-line'>
                                         {item.value && item.value.replace(/\./g, '.\n')}
-                                    </div>
+                                    </div> */}
                                     {
                                         item.song.srcUrl && <MusicTrackCardComponent song={item.song} />
                                     }
