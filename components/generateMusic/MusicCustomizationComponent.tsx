@@ -55,11 +55,11 @@ const MusicCustomizationComponent = ({ childData }: any) => {
     }
 
     return (
-        <div className='w-4/6 p-lg bg-slate-300 rounded-lg z-0 m-md flex flex-col gap-2'>
+        <div className='w-4/6 p-lg bg-slate-300 rounded-lg z-0 m-sm flex flex-col gap-2'>
 
-            <div className='flex flex-col gap-4 w-full p-md'>
+            <div className='flex flex-col gap-4 w-full p-sm'>
                 <div className='flex gap-4 w-full'>
-                    <div className="max-w-[100%] grow w-2/5 border-[1px] border-black rounded-lg flex flex-col gap-4 p-lg ">
+                    <div className="max-w-[100%] grow w-2/5 border-[1px] border-black rounded-lg flex flex-col gap-4 p-md ">
                         <h3>Voice Quality</h3>
                         <ul aria-label="Suggested tags" className="flex overflow-x-auto scroll-smooth whitespace-nowrap rounded-[28px] no-scrollbar">
                             <li>
@@ -81,7 +81,7 @@ const MusicCustomizationComponent = ({ childData }: any) => {
                         <input type="range" name='clarity' value={musicCustomizationData.clarityValue} onChange={e => handleClarityChange(e as unknown as React.ChangeEvent<HTMLInputElement>)} />
                     </div>
                 </div>
-                <div className="max-w-[100%] grow  border-[1px] border-black rounded-lg flex flex-col gap-4 p-lg w-full">
+                <div className="max-w-[100%] grow  border-[1px] border-black rounded-lg flex flex-col gap-2 p-md w-full">
                     <h3>Background Music (Select one)</h3>
                     <ul aria-label="Suggested tags" className="flex overflow-x-auto scroll-smooth whitespace-nowrap rounded-[28px] no-scrollbar">
                         <li>
@@ -117,7 +117,7 @@ const MusicCustomizationComponent = ({ childData }: any) => {
                             </div>
                         </li>
                         <li>
-                            <div className={`inline-flex items-center rounded-full border text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent mr-2 cursor-pointer bg-[#FFFFFF] p-3 text-muted-foreground hover:bg-black md:bg-gray-light md:px-2.5 md:py-1 hover:text-white ${backgroundMusicSelected === "hardrock" ? 'bg-black text-white' : ''}`} role="button" aria-label="Add tag to prompt: guitar" onClick={e => handleBackgroundMusicChange((e as unknown as React.ChangeEvent<HTMLDivElement>))}>guitar
+                            <div className={`inline-flex items-center rounded-full border text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent mr-2 cursor-pointer bg-[#FFFFFF] p-3 text-muted-foreground hover:bg-black md:bg-gray-light md:px-2.5 md:py-1 hover:text-white ${backgroundMusicSelected === "guitar" ? 'bg-black text-white' : ''}`} role="button" aria-label="Add tag to prompt: guitar" onClick={e => handleBackgroundMusicChange((e as unknown as React.ChangeEvent<HTMLDivElement>))}>guitar
                             </div>
                         </li>
                         <li>
@@ -156,7 +156,7 @@ const MusicCustomizationComponent = ({ childData }: any) => {
                 </div>
             </div>
 
-            <div className='flex flex-col justify-center gap-4 w-full items-center'>
+            <div className='flex flex-col justify-center gap-2 w-full items-center'>
                 <input type="text" className='w-full h-[45px] border-2 border-black p-sm rounded-lg' value={musicCustomizationData.prompt ? musicCustomizationData.prompt : ''} onChange={handleChange} />
                 <button className='border-[1px] border-black p-sm rounded-lg bg-white w-[200px] flex justify-center' onClick={handleDataSubmission}>Generate Music</button>
                 {/* <button className='bg-black text-white w-[200px] h-[60px] rounded-lg flex justify-center items-center' onClick={handleDataSubmission}>Generate</button> */}
