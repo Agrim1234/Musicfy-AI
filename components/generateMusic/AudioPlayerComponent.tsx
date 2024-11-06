@@ -119,7 +119,7 @@ const AudioPlayerComponent = () => {
             try {
                 await navigator.share({
                     title: 'users song',
-                    url: `${process.env.NEXT_PUBLIC_URL}/${audioResponses[nowPlayingIndex].song.srcUrl}`
+                    url: `${audioResponses[nowPlayingIndex].song.srcUrl}`
                 });
                 console.log('Track shared successfully');
             } catch (error) {
@@ -163,7 +163,7 @@ const AudioPlayerComponent = () => {
 
     const handleDownload = () => {
         let name = audioResponses[nowPlayingIndex].song.srcUrl.split('/')[1];
-        downloadAudioFile(`${process.env.NEXT_PUBLIC_URL}/${audioResponses[nowPlayingIndex].song.srcUrl}`, name);
+        downloadAudioFile(`${audioResponses[nowPlayingIndex].song.srcUrl}`, name);
     }
 
     const changeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
