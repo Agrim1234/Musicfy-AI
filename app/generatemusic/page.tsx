@@ -99,7 +99,7 @@ const Page = () => {
             isPlaying: false
         }))
 
-        let response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/generate-music-file`, {
+        let response = await fetch(`/api/generate-music-file`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
