@@ -55,20 +55,24 @@ async function createAndUploadAudioFile(text: string, tag: string) {
         person = 'Joanna'
     }
 
-    const response: any = await fetch(process.env.NEXT_PUBLIC_FETCH_AUDIO ? process.env.NEXT_PUBLIC_FETCH_AUDIO : '', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            promptResponse: text,
-            personName: person
-        }),
-    });
-    console.log("response:", response)
-    const data = await response.json();
-    console.log("datapopularity", data);
-    return data["data"];
+    try {
+        const response: any = await fetch(process.env.NEXT_PUBLIC_FETCH_AUDIO ? process.env.NEXT_PUBLIC_FETCH_AUDIO : '', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                promptResponse: text,
+                personName: person
+            }),
+        });
+        console.log("response:", response)
+        const data = await response.json();
+        console.log("datapopularity", data);
+        return data["data"];
+    } catch (error) {
+        return error
+    }
 }
 
 
@@ -249,10 +253,10 @@ export const POST = async (req: any) => {
                 'Content-Type': 'application/json'  // Set Content-Type to JSON
             },
             body: JSON.stringify({
-                fileInput: responseUrl,  
+                fileInput: responseUrl,
                 outputFile: `${elementId}_output.mp3`,
-                clarityValue, 
-                speedValue, 
+                clarityValue,
+                speedValue,
                 backgroundMusic
             }),
         })
@@ -268,7 +272,7 @@ export const POST = async (req: any) => {
         // });
 
         const image_url = 'https://images.pexels.com/photos/7260262/pexels-photo-7260262.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-    
+
         return NextResponse.json({ file: data, value: responseText, imageUrl: image_url, duration: durationAudioFile, poemData: responseText });
     } catch (error) {
         console.error('Error:', error);
