@@ -178,7 +178,7 @@ export const POST = async (req: any) => {
     const response = await groq.chat.completions.create({
         model: "llama3-8b-8192",
         messages: [
-            { role: "system", content: "Respond only with medium length musical lyrics number of words should be between 100 and 110 without 🎵" },
+            { role: "system", content: "Respond only with medium length musical lyrics number of words should be between 70 and 80 without 🎵" },
             { role: "user", content: prompt }
         ]
     });
