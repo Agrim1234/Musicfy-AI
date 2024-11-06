@@ -227,10 +227,10 @@ export const POST = async (req: any) => {
         //         })
         //     })
 
-        await sleep(2000);
+        await sleep(3000);
 
-        let presignedUrlOutput = '';
-        let fileName = `${elementId}_output.mp3`;
+        //let presignedUrlOutput = '';
+        //let fileName = `${elementId}_output.mp3`;
         // try {
         //     const responseUploadAudio:any = await axios.post(process.env.NEXT_PUBLIC_UPLOAD_MERGED_AUDIO ? process.env.NEXT_PUBLIC_UPLOAD_MERGED_AUDIO : '', { fileName, fileType: 'audio' }, {
         //         headers: {
@@ -243,7 +243,7 @@ export const POST = async (req: any) => {
         //     console.log(error)
         // }
 
-        const response = await fetch('https://musicfy-backend-production.up.railway.app/generate-music-audio', {
+        const response = await fetch('https://musicfy-ai.vercel.app/generate-music-audio', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'  // Set Content-Type to JSON
