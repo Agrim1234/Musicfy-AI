@@ -227,8 +227,38 @@ export const POST = async (req: any) => {
         //         })
         //     })
 
-        await sleep(3000);
-        const data = await mergeAudio({ fileInput: responseUrl, outputFile: `public/${elementId}_output.mp3`, tag, clarityValue, speedValue, backgroundMusic });
+        await sleep(2000);
+
+        let presignedUrlOutput = '';
+        let fileName = `${elementId}_output.mp3`;
+        // try {
+        //     const responseUploadAudio:any = await axios.post(process.env.NEXT_PUBLIC_UPLOAD_MERGED_AUDIO ? process.env.NEXT_PUBLIC_UPLOAD_MERGED_AUDIO : '', { fileName, fileType: 'audio' }, {
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         }
+        //     })
+
+        //     presignedUrlOutput = responseUploadAudio.data.presignedUrl
+        // } catch (error) {
+        //     console.log(error)
+        // }
+
+        const response = await fetch('https://musicfy-backend-production.up.railway.app/generate-music-audio', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'  // Set Content-Type to JSON
+            },
+            body: JSON.stringify({
+                fileInput: responseUrl,  
+                outputFile: `${elementId}_output.mp3`,
+                clarityValue, 
+                speedValue, 
+                backgroundMusic
+            }),
+        })
+        //const data = await mergeAudio({ fileInput: responseUrl, outputFile: `public/${elementId}_output.mp3`, tag, clarityValue, speedValue, backgroundMusic });
+
+        const data = await response.json();
         console.log("data: ", data)
         // const responseImageUrl = await openai.images.generate({
         //     model: "dall-e-2",
@@ -238,9 +268,8 @@ export const POST = async (req: any) => {
         // });
 
         const image_url = 'https://images.pexels.com/photos/7260262/pexels-photo-7260262.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-        //console.log(image_url);
-        //console.log(output)
-        return NextResponse.json({ file: data.url, value: responseText, imageUrl: image_url, duration: durationAudioFile, poemData: responseText });
+    
+        return NextResponse.json({ file: data, value: responseText, imageUrl: image_url, duration: durationAudioFile, poemData: responseText });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json({ error: 'Failed to generate or process speech' });
