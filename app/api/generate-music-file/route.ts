@@ -247,7 +247,7 @@ export const POST = async (req: any) => {
         //     console.log(error)
         // }
 
-        const response = await fetch('https://musicfy-ai.vercel.app/generate-music-audio', {
+        const response = await fetch('https://musicfy-backend-production.up.railway.app/generate-music-audio', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'  // Set Content-Type to JSON
