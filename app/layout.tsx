@@ -8,8 +8,8 @@ import Providers from "@/components/StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Poemify@AI",
-  description: "Poem meets AI",
+  title: "Musicfy@AI",
+  description: "Music meets AI",
 };
 
 export default function RootLayout({
