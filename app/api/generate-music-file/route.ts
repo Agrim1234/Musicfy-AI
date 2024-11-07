@@ -56,7 +56,7 @@ async function createAndUploadAudioFile(text: string, tag: string) {
     }
 
     try {
-        const response: any = await fetch(process.env.NEXT_PUBLIC_FETCH_AUDIO ? process.env.NEXT_PUBLIC_FETCH_AUDIO : '', {
+        const response: any = await fetch(process.env.FETCH_AUDIO ? process.env.FETCH_AUDIO : '', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
