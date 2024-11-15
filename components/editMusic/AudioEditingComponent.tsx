@@ -248,11 +248,7 @@ const AudioPlayerComponent = () => {
 
             <div className='flex gap-3 justify-around w-full'>
                 <div className='flex items-center gap-4'>
-                    <Image src={'https://images.pexels.com/photos/7260262/pexels-photo-7260262.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} className='bg-slate-500' width={78} height={78} alt='music photo' />
-                    <div className='flex flex-col'>
-                        <p className='text-white'>User&apos;s song</p>
-                        <p className='text-white'>User</p>
-                    </div>
+    
                 </div>
                 <div className='flex gap-4'>
                     <button className='w-[60px] h-[60px] bg-[#EFEFEF] rounded-full border-none outline-none cursor-pointer mt-3 pt-1' onClick={handlePrevious}>
@@ -266,51 +262,7 @@ const AudioPlayerComponent = () => {
                     </button>
                 </div>
                 <div className='flex items-center relative'>
-                    <button className="w-[60px] h-[60px] flex justify-center items-center rounded-full border-none outline-none cursor-pointer" onClick={() => handleShare()} title="Share on social media">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="flex items-center justify-center h-full text-white">
-                            <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
-                        </svg>
-                    </button>
-                    {showShareOptions && (
-                        <div className="share-options absolute bg-black border-[1px] border-white p-3 -left-10 rounded-xl">
-                            <ul className='flex flex-col gap-3'>
-                                <li>
-                                    <a
-                                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentSongUrl)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <FaFacebookF className='text-2xl text-white'/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('users song')}&url=${encodeURIComponent(currentSongUrl)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <FaTwitter className='text-2xl text-white'/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href={`mailto:?subject=Check out this song: ${encodeURIComponent('users song')}&body=${encodeURIComponent(currentSongUrl)}`}
-                                    >
-                                        <MdEmail className='text-2xl text-white'/>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
-                    <button className='w-[60px] h-[60px] rounded-full flex align-middle items-center border-none outline-none cursor-pointer' onClick={handleDownload}>
-                        <IoMdDownload className='text-2xl text-white w-full flex items-center' />
-                    </button>
-                    <div className='flex items-center gap-3 px-3'>
-                        {
-                            audioVolume === 0 ? <FaVolumeMute className='text-2xl text-white' /> : <FaVolumeUp className='text-2xl text-white' />
-                        }
-                        <input type="range" name='volume' className='flex items-center' value={audioVolume} onChange={(e) => changeVolume(e as unknown as React.ChangeEvent<HTMLInputElement>)} />
-                    </div>
+                    
                 </div>
             </div>
         </div>
